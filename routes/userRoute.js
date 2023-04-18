@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/user');
 
 // Route pour la création d'un utilisateur
 router.post('/createUser', async (req, res) => {
@@ -52,5 +52,8 @@ router.get('/allUsers', async (req, res) => {
         res.status(400).send(error);
     }
 });
+
+
+
 
 module.exports = router;
