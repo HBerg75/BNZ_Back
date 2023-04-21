@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoute');
+const userRoutes = require('./routes/userRoute');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,6 +39,7 @@ connectDB().then(() => {
 // Routes pour l'authentification
 
 app.use('/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(3001, () => {
   console.log('Server started on port 3001');
