@@ -3,9 +3,13 @@ const connectDB = require('./services/db');
 const app = express();
 const passport = require('passport');
 const session = require('express-session');
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/authRoute');
 
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-app.use('/api/users', require('./routes/userRoute'));
+// app.use('/api/users', require('./routes/userRoute'));
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('internal server error');
@@ -30,6 +34,10 @@ connectDB().then(() => {
 }).catch(err => {
   console.error('Unable to connect to DB', err);
 });
+
+// Routes pour l'authentification
+
+app.use('/auth', authRoutes);
 
 app.listen(3001, () => {
   console.log('Server started on port 3001');
