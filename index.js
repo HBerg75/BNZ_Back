@@ -10,7 +10,6 @@ const userRoutes = require('./routes/userRoute');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-// app.use('/api/users', require('./routes/userRoute'));
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('internal server error');
@@ -37,7 +36,6 @@ connectDB().then(() => {
 });
 
 // Routes pour l'authentification
-
 app.use('/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
