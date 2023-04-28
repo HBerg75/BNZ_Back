@@ -1,5 +1,7 @@
 const User = require('../models/user');
 const passport = require('passport');
+const jwtStrategy = require('passport-jwt').Strategy;
+const extractJwt = require('passport-jwt').ExtractJwt;
 
 exports.signup = async (req, res, next) => {
   try {
@@ -16,12 +18,13 @@ exports.signup = async (req, res, next) => {
 
 
 exports.login =  (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('login', (err, user, info) => {
       if (err) return next(err);
-      if (!user) return res.status(400).json({ message: 'Adresse e-mail ou mot de passe incorrect.' });
+      if (!user) return res.status(400).json({ message: 'Adresse e-mail ou mot de passe incorrect.' }, { message: info.message});
       req.logIn(user, (err) => {
         if (err) return next(err);
-        return res.json({ message: 'Connexion réussie!', user: user });
+        const token = user.generateAuthToken();
+        return res.json({ message: 'Connexion réussie!', token: info.token, user: user });
       });
     })(req, res, next);
   };

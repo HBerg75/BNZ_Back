@@ -1,3 +1,4 @@
+require('dotenv').config
 const express = require('express');
 const connectDB = require('./services/db');
 const app = express();
@@ -6,6 +7,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoute');
 const userRoutes = require('./routes/userRoute');
+
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
