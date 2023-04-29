@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const startupSchema = new Schema({
     name: { type: String, required: true },
+    kbis: { type: String, required: true },
+    siret: { type: String, required: true },
+    name: { type: String, required: true },
+    name: { type: String, required: true },
     description: { type: String, required: true },
     fundraisingGoal: { type: Number, required: true },
     amountRaised: { type: Number, required: true, default: 0 },

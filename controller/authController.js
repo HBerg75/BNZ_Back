@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 const passport = require('passport');
 const jwtStrategy = require('passport-jwt').Strategy;
 const extractJwt = require('passport-jwt').ExtractJwt;
@@ -24,8 +24,21 @@ exports.login =  (req, res, next) => {
       req.logIn(user, (err) => {
         if (err) return next(err);
         const token = user.generateAuthToken();
-        return res.json({ message: 'Connexion réussie!', token: info.token, user: user });
+        return res.json({ message: 'Connexion réussie!', token: info.token, });
       });
+    })(req, res, next);
+  };
+  
+  exports.getSessionData = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+  
+      res.status(200).json({...user });
     })(req, res, next);
   };
   
@@ -38,5 +51,5 @@ exports.login =  (req, res, next) => {
 
 exports.logout = (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.redirect('/home');
 };
