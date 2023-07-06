@@ -6,7 +6,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoute');
 const userRoutes = require('./routes/userRoute');
-
+const startupRoutes = require('./routes/startupRoute');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
@@ -38,6 +38,8 @@ connectDB().then(() => {
 // Routes pour l'authentification
 app.use('/auth', authRoutes);
 app.use('/api/users', userRoutes);
+
+app.use('/api/startups', startupRoutes);
 
 app.listen(3001, () => {
   console.log('Server started on port 3001');

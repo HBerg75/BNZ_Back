@@ -1,16 +1,27 @@
-const User = require('../models/user');
-const bcrypt = require('bcrypt');
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
 // Modifier les informations d'un utilisateur
 exports.updateUser = async (req, res, next) => {
-  const { firstName, lastName, email, address, phoneNumber, postalCode, city, country, currentPassword, newPassword } = req.body;
-  
+  const {
+    firstName,
+    lastName,
+    email,
+    address,
+    phoneNumber,
+    postalCode,
+    city,
+    country,
+    currentPassword,
+    newPassword,
+  } = req.body;
+
   try {
     const user = await User.findById(req.params.userId);
 
     // Vérifier que l'utilisateur existe
     if (!user) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+      return res.status(404).json({ message: "Utilisateur non trouvé." });
     }
 
     // Vérifier si l'email est modifié et qu'il n'est pas déjà utilisé
@@ -18,7 +29,7 @@ exports.updateUser = async (req, res, next) => {
       const emailExist = await User.findOne({ email: email });
 
       if (emailExist) {
-        return res.status(400).json({ message: 'Cet email est déjà utilisé.' });
+        return res.status(400).json({ message: "Cet email est déjà utilisé." });
       }
     }
 
@@ -38,7 +49,9 @@ exports.updateUser = async (req, res, next) => {
       const isMatch = await user.comparePassword(currentPassword);
 
       if (!isMatch) {
-        return res.status(400).json({ message: 'Le mot de passe actuel est incorrect.' });
+        return res
+          .status(400)
+          .json({ message: "Le mot de passe actuel est incorrect." });
       }
 
       // Crypter le nouveau mot de passe et le sauvegarder
@@ -49,7 +62,7 @@ exports.updateUser = async (req, res, next) => {
 
     await user.save();
 
-    res.json({ message: 'Utilisateur modifié avec succès.', user: user });
+    res.json({ message: "Utilisateur modifié avec succès.", user: user });
   } catch (err) {
     next(err);
   }
@@ -61,7 +74,7 @@ exports.getUser = async (req, res, next) => {
     const user = await User.findById(req.params.userId);
 
     if (!user) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+      return res.status(404).json({ message: "Utilisateur non trouvé." });
     }
 
     res.json({ user: user });
@@ -83,16 +96,16 @@ exports.getAllUsers = async (req, res, next) => {
 
 // Supprimer un utilisateur
 exports.deleteUser = async (req, res, next) => {
-    try {
-      const user = await User.findById(req.params.id);
-      if (!user) {
-        return res.status(404).json({ message: 'Utilisateur non trouvé' });
-      }
-  
-      await user.remove();
-  
-      res.status(200).json({ message: 'Utilisateur supprimé' });
-    } catch (err) {
-      next(err);
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
-  };
+
+    await user.remove();
+
+    res.status(200).json({ message: "Utilisateur supprimé" });
+  } catch (err) {
+    next(err);
+  }
+};
