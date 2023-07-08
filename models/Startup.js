@@ -10,7 +10,7 @@ const startupSchema = new Schema({
     investors: [{ type: Schema.Types.ObjectId, ref: 'Investor' }],
     status: { type: String, default: 'pending', enum: ['pending', 'approved', 'rejected'] },
     logo: { type: String, default: 'https://via.placeholder.com/150' },
-    website: { type: String },
+    website: { type: String, default: 'https://via.placeholder.com/150' },
 });
 
 const Startup = mongoose.model('Startup', startupSchema);
