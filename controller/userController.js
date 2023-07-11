@@ -1,5 +1,5 @@
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 // Modifier les informations d'un utilisateur
 exports.updateUser = async (req, res, next) => {
@@ -71,7 +71,7 @@ exports.updateUser = async (req, res, next) => {
 // Obtenir les informations d'un utilisateur spécifique
 exports.getUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       return res.status(404).json({ message: "Utilisateur non trouvé." });

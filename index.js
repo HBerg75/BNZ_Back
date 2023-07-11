@@ -1,5 +1,6 @@
-const express = require("express");
-const connectDB = require("./services/db");
+require('dotenv').config
+const express = require('express');
+const connectDB = require('./services/db');
 const app = express();
 const passport = require("passport");
 const session = require("express-session");
@@ -8,6 +9,7 @@ const authRoutes = require("./routes/authRoute");
 const userRoutes = require("./routes/userRoute");
 const startupRoutes = require("./routes/startupRoute");
 const cors = require("cors");
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
