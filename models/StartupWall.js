@@ -12,6 +12,9 @@ const startupWallSchema = new mongoose.Schema({
   roadmap: {
     type: String
   },
+  rewardDescription: {
+    type: String
+  },
   about: {
     type: String
   },

@@ -1,5 +1,6 @@
-const express = require("express");
-const connectDB = require("./services/db");
+require('dotenv').config
+const express = require('express');
+const connectDB = require('./services/db');
 const app = express();
 const passport = require("passport");
 const session = require("express-session");
@@ -17,6 +18,7 @@ const pinata = new pinataSDK(PINATA_API_KEY, PINATA_SECRET);
 
 const fs = require("fs");
 const readableStreamForFile = fs.createReadStream("./image.png");
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());

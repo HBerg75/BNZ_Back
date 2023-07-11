@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -79,10 +79,14 @@ userSchema.methods.changePassword = async function (oldPassword, newPassword) {
     if (!isMatch) {
       throw new Error('Mot de passe incorrect');
     }
-  
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
   };
   
+  userSchema.methods.generateAuthToken = function() {
+    const token = jwt.sign({ _id: this._id }, process.env.TOKEN_SECRET);
+    return token;
+  };
+
 
 module.exports = mongoose.model('User', userSchema);
