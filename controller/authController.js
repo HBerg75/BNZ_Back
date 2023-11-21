@@ -38,7 +38,7 @@ exports.login =  (req, res, next) => {
         return res.status(401).json({ message: 'Unauthorized' });
       }
   
-      res.status(200).json({...user });
+      res.status(200).json({... user });
     })(req, res, next);
   };
   

@@ -3,10 +3,11 @@ const bcrypt = require('bcrypt');
 
 // Modifier les informations d'un utilisateur
 exports.updateUser = async (req, res, next) => {
-  const { firstName, lastName, email, address, phoneNumber, postalCode, city, country, currentPassword, newPassword } = req.body;
+  const { firstName, lastName, email, address, phoneNumber, role, status, postalCode, city, country, password } = req.body;
   
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.params.id);
+    console.log(user, 'user');
 
     // Vérifier que l'utilisateur existe
     if (!user) {
@@ -28,22 +29,25 @@ exports.updateUser = async (req, res, next) => {
     user.email = email;
     user.address = address;
     user.phoneNumber = phoneNumber;
+    user.role = role;
+    user.status = status;
     user.postalCode = postalCode;
     user.city = city;
     user.country = country;
+    user.password = password;
 
     // Vérifier si un nouveau mot de passe a été fourni
-    if (newPassword) {
-      // Vérifier si l'ancien mot de passe fourni correspond à l'actuel
-      const isMatch = await user.comparePassword(currentPassword);
+    // if (newPassword) {
+    //   // Vérifier si l'ancien mot de passe fourni correspond à l'actuel
+    //   const isMatch = await user.comparePassword(currentPassword);
 
-      if (!isMatch) {
-        return res.status(400).json({ message: 'Le mot de passe actuel est incorrect.' });
-      }
-
+    //   if (!isMatch) {
+    //     return res.status(400).json({ message: 'Le mot de passe actuel est incorrect.' });
+    //   }
+    if (password) {
       // Crypter le nouveau mot de passe et le sauvegarder
       const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      const hashedPassword = await bcrypt.hash(password, salt);
       user.password = hashedPassword;
     }
 
